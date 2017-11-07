@@ -1,10 +1,11 @@
 import time
+from datetime import datetime
 import json 
 import requests
 import urllib
 import os
 
-TOKEN = os.environ['AAC'] 
+TOKEN = os.environ['AAC']
 URL = "https://api.telegram.org/bot{}/".format(TOKEN)
 
 
@@ -51,9 +52,14 @@ def send_message(text, chat_id):
 def echo_all(updates):
     for update in updates["result"]:
         try:
-            text = update["message"]["text"]
-            chat = update["message"]["chat"]["id"]
-            send_message(text, chat)
+			text = update["message"]["text"]
+			chat = update["message"]["chat"]["id"]
+			
+			if text == "/clock":
+				text = datetime.now().strftime("%H:%M:%S")
+			
+			print text
+			send_message(text, chat)
         except Exception as e:
             print(e)
     
