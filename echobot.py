@@ -55,6 +55,7 @@ def echo_all(updates):
 			text = update["message"]["text"]
 			chat = update["message"]["chat"]["id"]
 			
+			
 			if text == "/clock":
 				text = datetime.now().strftime("%H:%M:%S")
 			
