@@ -50,18 +50,17 @@ def send_message(text, chat_id):
 	get_url(url)
 	
 def echo_all(updates):
-    for update in updates["result"]:
-        try:
-		text = update["message"]["text"]
-		chat = update["message"]["chat"]["id"]
-		
-		if text == "/clock":
-				text = datetime.now().strftime("%H:%M:%S")
+	for update in updates["result"]:
+		try:
+			text = update["message"]["text"]
+			chat = update["message"]["chat"]["id"]
 			
-		print text
-		send_message(text, chat)
-        except Exception as e:
-            print(e)
+			if text == "/clock":
+				text = datetime.now().strftime("%H:%M:%S")
+			print text
+			send_message(text, chat)
+		except Exception as e:
+			print(e)
     
 	
 def main():
