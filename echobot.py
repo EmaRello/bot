@@ -8,6 +8,9 @@ import os
 TOKEN = os.environ['AAC']
 URL = "https://api.telegram.org/bot{}/".format(TOKEN)
 
+#Used emoji
+winkingFace = u'\U0001F609'
+
 
 def get_url(url):
     response = requests.get(url)
@@ -54,10 +57,10 @@ def echo_all(updates):
 		try:
 			text = update["message"]["text"]
 			chat = update["message"]["chat"]["id"]
-			
+			print(text)
 			if text == "/clock":
-				text = datetime.now().strftime("%H:%M:%S")
-			print text
+				text = "sono le ore " + datetime.now().strftime("%H:%M:%S") + " " + winkingFace
+				
 			send_message(text, chat)
 		except Exception as e:
 			print(e)
