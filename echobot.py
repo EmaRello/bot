@@ -5,8 +5,14 @@ import requests
 import urllib
 import os
 
-TOKEN = os.environ['AAC']
-URL = "https://api.telegram.org/bot{}/".format(TOKEN)
+TELEGRAM_TOKEN = os.environ['AAC']
+WEATHER_TOKEN = os.environ['AAC2']
+
+fieldLat = "41.86"
+fieldLon = "12.47"
+
+TELEGRAM_URL = "https://api.telegram.org/bot{}/".format(TELEGRAM_TOKEN)
+WEATHER_URL = "http://api.openweathermap.org/data/2.5/forecast?lat={}&lon={}&APPID={}".format(fieldLat,fieldLon,WEATHER_TOKEN)
 
 #Used emoji
 winkingFace = u'\U0001F609'
@@ -25,7 +31,7 @@ def get_json_from_url(url):
 
 
 def get_updates(offset=None):
-	url = URL + "getUpdates?timeout=100"
+	url = TELEGRAM_URL + "getUpdates?timeout=100"
 	if offset:
 		url += "&offset={}".format(offset)
 	js = get_json_from_url(url)
@@ -49,7 +55,7 @@ def get_last_chat_id_and_text(updates):
 def send_message(text, chat_id):
 	text = urllib.parse.quote_plus(text)
 	#text = urllib.pathname2url(text)
-	url = URL + "sendMessage?text={}&chat_id={}".format(text, chat_id)
+	url = TELEGRAM_URL + "sendMessage?text={}&chat_id={}".format(text, chat_id)
 	get_url(url)
 	
 def echo_all(updates):
@@ -58,9 +64,16 @@ def echo_all(updates):
 			text = update["message"]["text"]
 			chat = update["message"]["chat"]["id"]
 			print(text)
+			
 			if text == "/clock":
 				text = "sono le ore " + datetime.now().strftime("%H:%M:%S") + " " + winkingFace
 				
+			if text == "/weather":
+				text = "Il tempo al campo nei prossimi 5 dovrebbe essere: \n"
+				wjs = get_json_from_url(WEATHER_URL)
+				for i in range(0,40):
+					text += wjs["list"][i]["dt_txt"] + " " + wjs["list"][i]["weather"][0]["description"] +"\n"
+					
 			send_message(text, chat)
 		except Exception as e:
 			print(e)
@@ -68,13 +81,14 @@ def echo_all(updates):
 	
 def main():
 	last_update_id = None
+	
 	while True:
 		updates = get_updates(last_update_id)
 		if len(updates["result"]) > 0:
 			last_update_id = get_last_update_id(updates) + 1
 			echo_all(updates)
 		time.sleep(0.5)
-
+	    
 
 if __name__ == '__main__':
     main()
