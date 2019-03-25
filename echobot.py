@@ -59,7 +59,7 @@ def send_message(text, chat_id):
 	get_url(url)
 	
 def echo_all(updates):
-	send = false
+	send = False
 	for update in updates["result"]:
 		try:
 			text = update["message"]["text"]
@@ -70,7 +70,7 @@ def echo_all(updates):
 			
 				
 			if text == "/weather":
-				send = true
+				send = True
 				text = "Il tempo al campo nei prossimi 5 dovrebbe essere: \n"
 				wjs = get_json_from_url(WEATHER_URL)
 				for i in range(0,40):
@@ -78,15 +78,15 @@ def echo_all(updates):
 			'''
 			
 			if text == "/clock":
-				send = true
+				send = True
 				text = "sono le ore " + datetime.now().strftime("%H:%M:%S") + " " + winkingFace
 			
 			if text == "(":
-				send = true
+				send = True
 				text = ")"
 				
 			if text.lower() == "pasquale":
-				send = true
+				send = True
 				text = "ricchioncello!"
 			
 				
