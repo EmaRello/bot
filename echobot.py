@@ -65,17 +65,25 @@ def echo_all(updates):
 			chat = update["message"]["chat"]["id"]
 			print(text)
 			
-			if text == "/clock":
-				text = "sono le ore " + datetime.now().strftime("%H:%M:%S") + " " + winkingFace
+			'''
+			
 				
 			if text == "/weather":
 				text = "Il tempo al campo nei prossimi 5 dovrebbe essere: \n"
 				wjs = get_json_from_url(WEATHER_URL)
 				for i in range(0,40):
 					text += wjs["list"][i]["dt_txt"] + " " + wjs["list"][i]["weather"][0]["description"] +"\n"
+			'''
+			
+			if text == "/clock":
+				text = "sono le ore " + datetime.now().strftime("%H:%M:%S") + " " + winkingFace
 			
 			if text == "(":
 				text = ")"
+				
+			if text.lower() == "pasquale":
+				text = "ricchioncello!"
+			
 				
 					
 			send_message(text, chat)
