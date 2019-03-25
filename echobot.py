@@ -73,6 +73,10 @@ def echo_all(updates):
 				wjs = get_json_from_url(WEATHER_URL)
 				for i in range(0,40):
 					text += wjs["list"][i]["dt_txt"] + " " + wjs["list"][i]["weather"][0]["description"] +"\n"
+			
+			if text == "(":
+				text = ")"
+				
 					
 			send_message(text, chat)
 		except Exception as e:
